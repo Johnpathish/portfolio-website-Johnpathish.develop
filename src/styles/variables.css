@@ -1,0 +1,20 @@
+:root {
+  --color-bg: #ffffff;
+  --color-text: #111111;
+  --color-muted: #777777;
+  --color-purple: #a64cff;
+  --color-yellow: #ffe347;
+  --color-teal: #35d2c7;
+  --color-blue-soft: #cbd3ff;
+  --color-contact: #c8d0ff;
+  --color-card: #ffffff;
+  --color-border: #111111;
+  --shadow-brutal: 4px 4px 0 #111111;
+  --font-body: 'Trebuchet MS', 'Segoe UI', sans-serif;
+  --font-heading: Impact, Haettenschweiler, 'Arial Black', sans-serif;
+  --radius-lg: 20px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
+  --container-width: 1040px;
+  --header-height: 88px;
+}
