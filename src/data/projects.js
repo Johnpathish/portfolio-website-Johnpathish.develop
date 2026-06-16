@@ -10,13 +10,13 @@ export const projects = [
       'Built a scalable multi-tenant ERP billing module with ePOS integration, invoicing workflows, customer billing, delivery flow, and secure JWT-based access.',
   },
   {
-    title: 'Technician Management Module',
-    category: 'Service ERP Dashboard',
-    image: '/projects/aathisoft-technician.png',
-    frameColor: '#ffd642',
-    demoUrl: 'https://app-dev.aathisoft.com/serviceapp/technicianlist',
-    repoUrl: '',
+    title: 'Holy Cross Matriculation Higher Secondary School',
+    category: 'School Management Website',
+    image: '/projects/holycross-project.png',
+    frameColor: '#f0c14b',
+    demoUrl: 'https://holycross-matriculation.vercel.app',
+    
     summary:
-      'Implemented technician listing, filtering, skill mapping, certifications, ratings, and active status management inside the ERP service workflow.',
+      'Developed a complete school website with admissions, academics, facilities, administration, activities, committees and contact management.',
   },
 ]

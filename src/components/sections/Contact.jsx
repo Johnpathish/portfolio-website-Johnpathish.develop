@@ -1,7 +1,16 @@
 import { useContactForm } from '../../hooks/useContactForm'
 
 const Contact = () => {
-  const { form, status, handleChange, handleSubmit } = useContactForm()
+  const {
+    form,
+    status,
+    error,
+    submission,
+    toast,
+    isSubmitting,
+    handleChange,
+    handleSubmit,
+  } = useContactForm()
 
   return (
     <section id="contact" className="section contact-section">
@@ -48,13 +57,59 @@ const Contact = () => {
           <form className="contact-form-card brutal-card" onSubmit={handleSubmit}>
             <h3>Quick Message</h3>
 
+            {toast ? (
+              <div className={`toast toast--${toast.type}`} role="status">
+                {toast.message}
+              </div>
+            ) : null}
+
             <label>
               <input
                 type="text"
-                name="name"
-                value={form.name}
+                name="fullName"
+                value={form.fullName}
                 onChange={handleChange}
-                placeholder="YOUR NAME"
+                placeholder="FULL NAME"
+                autoComplete="name"
+                disabled={isSubmitting}
+                required
+              />
+            </label>
+
+            <label>
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="EMAIL"
+                autoComplete="email"
+                disabled={isSubmitting}
+                required
+              />
+            </label>
+
+            <label>
+              <input
+                type="tel"
+                name="phoneNumber"
+                value={form.phoneNumber}
+                onChange={handleChange}
+                placeholder="PHONE NUMBER"
+                autoComplete="tel"
+                disabled={isSubmitting}
+                required
+              />
+            </label>
+
+            <label>
+              <input
+                type="text"
+                name="subject"
+                value={form.subject}
+                onChange={handleChange}
+                placeholder="SUBJECT"
+                disabled={isSubmitting}
                 required
               />
             </label>
@@ -66,25 +121,45 @@ const Contact = () => {
                 onChange={handleChange}
                 placeholder="WHAT'S ON YOUR MIND?"
                 rows="5"
+                disabled={isSubmitting}
                 required
               />
             </label>
 
-            <button className="contact-submit" type="submit">
-              {status === 'sending' ? 'Sending...' : 'Send Message'}
+            <button
+              className="contact-submit"
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <>
+                  <span className="loading-spinner" aria-hidden="true" />
+                  Sending...
+                </>
+              ) : (
+                'Send Message'
+              )}
             </button>
 
             <div className="form-status" aria-live="polite">
               {status === 'idle' && (
                 <p>Share a project idea, collaboration, or job opportunity.</p>
               )}
-              {status === 'success' && (
-                <>
-                  <p>Message submitted in demo mode.</p>
-                  <p>Connect a real backend next.</p>
-                </>
-              )}
               {status === 'sending' && <p>Submitting your message...</p>}
+              {status === 'error' && <p>{error}</p>}
+              {status === 'success' && submission ? (
+                <div className="submission-details">
+                  <p>
+                    <strong>Reference ID:</strong> {submission.referenceId}
+                  </p>
+                  <p>
+                    <strong>Status:</strong> {submission.status}
+                  </p>
+                  <p>
+                    <strong>Submitted Date:</strong> {submission.submittedDate}
+                  </p>
+                </div>
+              ) : null}
             </div>
           </form>
         </div>

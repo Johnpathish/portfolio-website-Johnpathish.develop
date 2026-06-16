@@ -9,7 +9,7 @@ const Projects = () => {
           <h2>Selected Works</h2>
           <a
             className="section-button"
-            href="https://github.com/johnpathish"
+            href="https://github.com/pathishaathisoft"
             target="_blank"
             rel="noreferrer"
           >
