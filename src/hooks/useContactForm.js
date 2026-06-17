@@ -7,18 +7,17 @@ const initialForm = {
   fullName: '',
   email: '',
   phoneNumber: '',
+  address: '',
+  location: '',
   subject: '',
   message: '',
 }
 
 const readFirstValue = (data, keys) => {
   for (const key of keys) {
-    if (data?.[key]) {
-      return data[key]
-    }
-
-    if (data?.data?.[key]) {
-      return data.data[key]
+    const value = key.split('.').reduce((obj, segment) => obj?.[segment], data)
+    if (value) {
+      return value
     }
   }
 
@@ -52,7 +51,8 @@ export const useContactForm = () => {
     try {
       const payload = {
         ...form,
-        source: 'portfolio-website',
+        phoneNumber: form.phoneNumber,
+        source: 'aathisoft-website',
         pageUrl: window.location.href,
       }
 
@@ -66,34 +66,27 @@ export const useContactForm = () => {
 
       const data = await response.json().catch(() => ({}))
 
-      if (!response.ok) {
+      if (!response.ok || data?.success === false) {
         throw new Error(data?.message || 'Contact request failed')
       }
 
       setSubmission({
         referenceId:
-          readFirstValue(data, [
-            'referenceId',
-            'referenceID',
-            'refId',
-            'id',
-            'ticketId',
-          ]) || 'Not provided',
+          readFirstValue(data, ['data.id', 'id', 'referenceId', 'referenceID', 'refId', 'ticketId']) ||
+          'Not provided',
         status:
-          readFirstValue(data, ['status', 'submissionStatus']) || 'Submitted',
+          readFirstValue(data, ['data.status', 'status', 'submissionStatus']) ||
+          'Submitted',
         submittedDate:
-          readFirstValue(data, [
-            'submittedDate',
-            'createdAt',
-            'createdDate',
-            'date',
-          ]) || new Date().toLocaleString(),
+          readFirstValue(data, ['data.submittedAt', 'submittedAt', 'submittedDate', 'createdAt', 'createdDate', 'date']) ||
+          new Date().toLocaleString(),
+        serverMessage: readFirstValue(data, ['message', 'data.message']) || '',
       })
       setStatus('success')
       setForm(initialForm)
-    } catch {
+    } catch (err) {
       setStatus('error')
-      setError('Failed to send message. Please try again.')
+      setError(err?.message || 'Failed to send message. Please try again.')
     }
   }
 
@@ -101,7 +94,7 @@ export const useContactForm = () => {
     if (status === 'success') {
       return {
         type: 'success',
-        message: 'Message sent successfully.',
+        message: submission?.serverMessage || 'Message sent successfully.',
       }
     }
 
@@ -113,7 +106,7 @@ export const useContactForm = () => {
     }
 
     return null
-  }, [error, status])
+  }, [error, status, submission])
 
   return {
     form,

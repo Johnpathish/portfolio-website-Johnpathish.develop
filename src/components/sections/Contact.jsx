@@ -105,14 +105,28 @@ const Contact = () => {
             <label>
               <input
                 type="text"
-                name="subject"
-                value={form.subject}
+                name="address"
+                value={form.address}
                 onChange={handleChange}
-                placeholder="SUBJECT"
+                placeholder="ADDRESS"
                 disabled={isSubmitting}
                 required
               />
             </label>
+
+            <label>
+              <input
+                type="text"
+                name="location"
+                value={form.location}
+                onChange={handleChange}
+                placeholder="LOCATION"
+                disabled={isSubmitting}
+                required
+              />
+            </label>
+
+            
 
             <label>
               <textarea
