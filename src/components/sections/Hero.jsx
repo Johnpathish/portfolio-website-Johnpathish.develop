@@ -33,7 +33,7 @@ const Hero = () => {
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.55 }}
         >
-          <div className="hero-pill">Hi, I'm Vijay Pathish</div>
+          <div className="hero-pill">Hi, I'm JohnPathish</div>
           <h1 className="hero-title">
             <span>Modern</span>
             <span className="hero-title__accent">React</span>

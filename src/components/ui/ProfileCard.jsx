@@ -2,27 +2,27 @@ import { motion } from 'framer-motion'
 
 const MotionAside = motion.aside
 
-const ProfileCard = ({ image, tags, availability }) => {
+const ProfileCard = ({ tags, availability }) => {
   return (
     <MotionAside
       className="profile-card brutal-card"
       whileHover={{ y: -8, scale: 1.015 }}
       transition={{ type: 'spring', stiffness: 260, damping: 20 }}
     >
-      <div className="profile-card__header">
+      <div className="myprofile">
         <span className="window-dots" aria-hidden="true">
           <span />
           <span />
           <span />
         </span>
-        <span className="profile-card__filename">profile_v2.jpg</span>
+        <span className="myprofile">myprofile.jpg</span>
       </div>
 
       <div className="profile-card__media">
         <img
           className="profile-card__image"
-          src={image}
-          alt="Vijay Pathish professional portrait"
+          src="/myprofile.jpg"
+          alt="JohnPathish professional portrait"
         />
       </div>
 
