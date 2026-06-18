@@ -9,7 +9,7 @@ const initialForm = {
   phoneNumber: '',
   address: '',
   location: '',
-  subject: '',
+ 
   message: '',
 }
 
