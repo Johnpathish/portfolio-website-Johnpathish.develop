@@ -49,17 +49,13 @@ export const useContactForm = () => {
     setSubmission(null)
 
     try {
-      const payload = new FormData()
-      payload.append('access_key', WEB3FORMS_ACCESS_KEY)
-      payload.append('subject', 'New portfolio contact form message')
-      payload.append('from_name', form.fullName)
-      payload.append('name', form.fullName)
-      payload.append('email', form.email)
-      payload.append('phone', form.phoneNumber)
-      payload.append('address', form.address)
-      payload.append('location', form.location)
-      payload.append('message', form.message)
-      payload.append('page_url', window.location.href)
+      const payload = new FormData(event.currentTarget)
+      payload.set('access_key', WEB3FORMS_ACCESS_KEY)
+      payload.set('subject', 'New portfolio contact form message')
+      payload.set('from_name', form.fullName)
+      payload.set('name', form.fullName)
+      payload.set('phone', form.phoneNumber)
+      payload.set('page_url', window.location.href)
 
       const response = await fetch(CONTACT_API, {
         method: 'POST',
@@ -69,7 +65,9 @@ export const useContactForm = () => {
       const data = await response.json().catch(() => ({}))
 
       if (!response.ok || data?.success === false) {
-        throw new Error(data?.message || 'Contact request failed')
+        throw new Error(
+          data?.message || data?.error || 'Contact request failed',
+        )
       }
 
       setSubmission({
