@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 
-const CONTACT_API =
-  'https://api-prod.aathisoft.com/webportal/public/website-contact'
+const CONTACT_API = 'https://api.web3forms.com/submit'
+const WEB3FORMS_ACCESS_KEY = 'b0d34d60-e439-4d34-953e-079729ba805d'
 
 const initialForm = {
   fullName: '',
@@ -49,19 +49,21 @@ export const useContactForm = () => {
     setSubmission(null)
 
     try {
-      const payload = {
-        ...form,
-        phoneNumber: form.phoneNumber,
-        source: 'aathisoft-website',
-        pageUrl: window.location.href,
-      }
+      const payload = new FormData()
+      payload.append('access_key', WEB3FORMS_ACCESS_KEY)
+      payload.append('subject', 'New portfolio contact form message')
+      payload.append('from_name', form.fullName)
+      payload.append('name', form.fullName)
+      payload.append('email', form.email)
+      payload.append('phone', form.phoneNumber)
+      payload.append('address', form.address)
+      payload.append('location', form.location)
+      payload.append('message', form.message)
+      payload.append('page_url', window.location.href)
 
       const response = await fetch(CONTACT_API, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
+        body: payload,
       })
 
       const data = await response.json().catch(() => ({}))
@@ -71,14 +73,12 @@ export const useContactForm = () => {
       }
 
       setSubmission({
-        referenceId:
-          readFirstValue(data, ['data.id', 'id', 'referenceId', 'referenceID', 'refId', 'ticketId']) ||
-          'Not provided',
+        referenceId: readFirstValue(data, ['data.id', 'id']) || 'Web3Forms',
         status:
-          readFirstValue(data, ['data.status', 'status', 'submissionStatus']) ||
+          readFirstValue(data, ['data.status', 'status']) ||
           'Submitted',
         submittedDate:
-          readFirstValue(data, ['data.submittedAt', 'submittedAt', 'submittedDate', 'createdAt', 'createdDate', 'date']) ||
+          readFirstValue(data, ['data.submittedAt', 'submittedAt']) ||
           new Date().toLocaleString(),
         serverMessage: readFirstValue(data, ['message', 'data.message']) || '',
       })
